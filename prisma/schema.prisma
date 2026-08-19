@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model BirthdayPerson {
+  id            String   @id
+  name          String
+  role          String
+  whatsapp      String?
+  birthdayDay   Int
+  birthdayMonth Int
+  photoFileName String
+  photoPath     String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  whatsappLogs  WhatsAppSendLog[]
+
+  @@index([birthdayMonth, birthdayDay])
+  @@map("birthday_people")
+}
+
+model TemplateAsset {
+  id           String   @id
+  name         String
+  type         String   @default("template")
+  fileName     String
+  templatePath String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("template_assets")
+}
+
+model AppSetting {
+  key       String   @id
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("app_settings")
+}
+
+model WhatsAppMessageTemplate {
+  id        String   @id
+  name      String
+  message   String
+  active    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([active])
+  @@map("whatsapp_message_templates")
+}
+
+model WhatsAppArtTemplate {
+  id        String   @id
+  name      String
+  fileName  String
+  filePath  String
+  active    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([active])
+  @@map("whatsapp_art_templates")
+}
+
+model WhatsAppSendLog {
+  id               String         @id
+  birthdayPersonId String
+  birthdayPerson   BirthdayPerson @relation(fields: [birthdayPersonId], references: [id], onDelete: Cascade)
+  phone            String?
+  messageText      String         @map("message")
+  imagePath        String?
+  status           String
+  errorMessage     String?
+  sentAt           DateTime?
+  year             Int
+  createdAt        DateTime       @default(now())
+
+  @@index([birthdayPersonId, year])
+  @@index([status])
+  @@index([sentAt])
+  @@map("whatsapp_send_logs")
+}
