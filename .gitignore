@@ -1,0 +1,34 @@
+# Dependências
+node_modules/
+
+# Build do Next.js
+.next/
+out/
+tsconfig.tsbuildinfo
+
+# Variáveis de ambiente (segredos reais nunca vão para o repositório)
+.env
+.env.local
+.env.*.local
+
+# Banco de dados SQLite (dados reais ficam só na VM, nunca no repositório)
+prisma/app.db
+prisma/app.db-shm
+prisma/app.db-wal
+prisma/*.db
+prisma/*.db-shm
+prisma/*.db-wal
+
+# Arquivos enviados pelos usuários (fotos, artes, etc.) — mantém a pasta, não o conteúdo
+uploads/fotos/*
+!uploads/fotos/.gitkeep
+uploads/templates/*
+!uploads/templates/.gitkeep
+uploads/whatsapp-templates/*
+!uploads/whatsapp-templates/.gitkeep
+uploads/whatsapp-generated/*
+!uploads/whatsapp-generated/.gitkeep
+
+# Diversos
+.DS_Store
+*.log
